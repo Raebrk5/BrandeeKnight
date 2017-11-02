@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>UN Disaster Preparedness Index</title>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    
+    <style>
+        #map {
+            width: 800px;
+            height: 500px;
+        }
+
+        .info {
+            padding: 6px 8px;
+            font: 14px/16px Arial, Helvetica, sans-serif;
+            background: white;
+            background: rgba(255,255,255,0.8);
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            border-radius: 5px;
+        }
+        .info h4 {
+            margin: 0 0 5px;
+            color: #777;
+        }
+
+        .legend {
+            text-align: left;
+            line-height: 18px;
+            color: #555;
+        }
+        .legend i {
+            width: 18px;
+            height: 18px;
+            float: left;
+            margin-right: 8px;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="map"></div>
+<script type="text/javascript" src="JS\slimedDisPrep.js"></script>
+<script>
+    var map = L.map('map').setView([ 47.2414, -122.4594], 2);
+
+        L.tileLayer('http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png', {
+    attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    subdomains: 'abcd',
+    }).addTo(map);
+
+L.geoJson(prepare).addTo(map);
+
+function getColor(d) {
+            return d > 5  ? '#BD0026' :
+                   d > 4  ? '#E31A1C' :
+                   d > 3  ? '#FC4E2A' :
+                   d > 2   ? '#FD8D3C' :
+                   d > 1   ? '#FEB24C' :
+                   d > 0   ? '#FED976' :
+                              '#FFEDA0';
+function style(feature) {
+    return {
+        fillColor: getColor(feature.properties.emilimatedExtra_field_3),
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.7
+    };
+}
+
+L.geoJson(emilimatedExtra_field_3, {style: style}).addTo(map);
+
+            map.on('click', onMapClick);
+
+    </script>
+</body>
+</html>
