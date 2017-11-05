@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="keywords" content="maps, cartography, visualizations, GIS"/>
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="css/style.css">
+		<title>UN Index for Disaster Preparedness</title>
+	
+	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin=""></script>
+
+	<script type="text/javascript" src="lib/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+	<nav class="navbar navbar-default navbar-fixed-top main-navbar">
+		<div class="container-fluid">
+			<div class="navbar-header">
+		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-controls="navbar">
+			<span class="sr-only" font-family>Toggle navigation</span>
+			<span class="glyphicon glyphicon-menu-hamburger"></span>
+			<span class="menu">Menu</span>
+		</button> <!--display hamburger on small screens-->
+			<a class="navbar-brand" href="#767676">Brandee Knight</a>
+	</div>
+	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"> <!--link to navbar-->
+		<ul class="nav navbar-nav">
+			<li><a href="maps.html">Portfolio</a></li>
+			<li><a href="about.html">About</a></li>
+			<li><a href="index.html">Contact Me</a></li>
+		</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container-fluid">
+		<div class="jumbotron">
+			<h1> UN World Risk Index </h1>
+		</div>
+	</div>
+
+
+	<style>
+		#map { width: 100%; height: 700px; }
+		.info { padding: 6px 8px; font: 14px/16px Times New Roman, Georgia, Serif; background: white; background: rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px; } 
+		.info h4 { margin: 0 0 5px; color: #000; }
+		.legend { text-align: left; line-height: 18px; color: #000; } 
+		.legend i { width: 18px; height: 18px; float: left; margin-right: 8px; opacity: 0.7; }
+	</style>
+</head>
+<body>
+
+<div id='map'></div>
+
+
+<script type="text/javascript" src="js/slimedDisPrep2.js"></script>
+
+<script type="text/javascript">
+
+	var map = L.map('map').setView([43.396, 34.305], 1.5);
+
+	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=sk.eyJ1IjoiYnJrNSIsImEiOiJjajk2Y3Z1dWQwMnFqMzNxeGtqMDJ0Z3o0In0.mJbFEJqBhVFmYnYo7pwKow', {
+		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+			'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+		id: 'mapbox.satellite'
+	}).addTo(map);
+
+
+	// control that shows state info on hover
+	var info = L.control();
+
+	info.onAdd = function (map) {
+		this._div = L.DomUtil.create('div', 'info');
+		this.update();
+		return this._div;
+	};
+
+	info.update = function (props) {
+		this._div.innerHTML = '<h4>UN Preparedness Rating</h4>' +  (props ?
+			'<b>' + props.CNTRY_NAME + '</b><br />' + props.emilimatedExta_field_3 + ' on a scale of 1-5 <sup> </sup>'
+			: 'Hover over a state');
+	};
+
+	info.addTo(map);
+
+
+	function getColor(d) {
+		return d > 4.49 ? '#00331b' :
+				d > 4.24  ? '#004726' :
+				d > 3.9  ? '#006837' :
+				d > 3.74  ? '#1a9850' :
+				d > 3.49 ? '#66bd63' :
+				d > 3.24 ? '#a6d96a' :
+				d > 2.9  ? '#d9ef8b' :
+				d > 2.74   ? '#cde281' :
+				d > 2.49  ? '#f9d861' :
+				d > 2.24 ? '#fdae61' :
+				d > 2   ? '#f46d43' :
+				d > 1.74   ? '#fc8d59' :
+				d < 1.74   ? '#a50026' :
+							'#d73027';
+	}
+
+	function style(feature) {
+		return {
+			weight: 1,
+			opacity: 1,
+			color: 'black',
+			dashArray: '1',
+			fillOpacity: 0.7,
+			fillColor: getColor(feature.properties.emilimatedExta_field_3)
+		};
+	}
+
+	function highlightFeature(e) {
+		var layer = e.target;
+
+		layer.setStyle({
+			weight: 5,
+			color: '#666',
+			dashArray: '',
+			fillOpacity: 0.7,
+		});
+
+		if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+			layer.bringToFront();
+		}
+
+		info.update(layer.feature.properties);
+	}
+
+	var geojson;
+
+	function resetHighlight(e) {
+		geojson.resetStyle(e.target);
+		info.update();
+	}
+
+	function zoomToFeature(e) {
+		map.fitBounds(e.target.getBounds());
+	}
+
+	function onEachFeature(feature, layer) {
+		layer.on({
+			mouseover: highlightFeature,
+			mouseout: resetHighlight,
+			click: zoomToFeature
+		});
+	}
+
+	geojson = L.geoJson(prepare, {
+		style: style,
+		onEachFeature: onEachFeature
+	}).addTo(map);
+
+
+	var legend = L.control({position: 'bottomleft'});
+
+	legend.onAdd = function (map) {
+
+		var div = L.DomUtil.create('div', 'info legend'),
+			grades = [0, 1, 2, 3, 4],
+			labels = ['Rating'],
+			from, to;
+
+		for (var i = 0; i < grades.length; i++) {
+			from = grades[i];
+			to = grades[i+1];
+
+			labels.push(
+				'<i style="background:' + getColor(from + 1) + '"></i> ' +
+				from + (to ? '&ndash;' + to : '+'));
+		}
+
+		div.innerHTML = labels.join('<br>');
+		return div;
+	};
+
+	legend.addTo(map);
+
+</script>
+
+
+
+</body>
+</html>
