@@ -61,7 +61,7 @@
 
 <script type="text/javascript">
 
-	var map = L.map('map').setView([43.396, 34.305], 1.5);
+	var map = L.map('map').setView([42.396, 13.305], 1.5);
 
 	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=sk.eyJ1IjoiYnJrNSIsImEiOiJjajk2Y3Z1dWQwMnFqMzNxeGtqMDJ0Z3o0In0.mJbFEJqBhVFmYnYo7pwKow', {
 		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
@@ -82,7 +82,7 @@
 
 	info.update = function (props) {
 		this._div.innerHTML = '<h4>HFA Reduction Rating</h4>' +  (props ?
-			'<b>' + props.CNTRY_NAME + '</b><br />' + props.emilimatedExta_field_3 + ' on a scale of 1-5 <sup> </sup>'
+			'<b>' + props.CNTRY_NAME + '</b><br />' + props.emilimatedExta_field_3 + ' on a scale of 0-5 <sup> </sup>'
 			: 'Hover over a state');
 	};
 
