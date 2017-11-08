@@ -61,13 +61,14 @@
 
 <script type="text/javascript">
 
-	var map = L.map('map').setView([25.396, 0.000], 1.5);
+	var map = L.map('map').setView([25.396, 0.000], 1.5, zoomControl: false);
 
 	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=sk.eyJ1IjoiYnJrNSIsImEiOiJjajk2Y3Z1dWQwMnFqMzNxeGtqMDJ0Z3o0In0.mJbFEJqBhVFmYnYo7pwKow', {
 		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
 			'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
 			'Imagery © <a href="http://mapbox.com">Mapbox</a>',
 		id: 'mapbox.satellite'
+		 
 	}).addTo(map);
 
 
