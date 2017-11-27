@@ -35,66 +35,65 @@
   </style>
   <script src="https://unpkg.com/esri-leaflet-renderers@2.0.6"></script>
 </head>
+
 <body>    
     <div id="map"></div>
     <div id="basemaps-wrapper" class="leaflet-bar">
-      <select name="basemaps" id="basemaps" onChange="changeBasemap(basemaps)">
-      <option value="Topographic">Topographic</option>
-      <option value="Streets">Streets</option>
-      <option value="NationalGeographic">National Geographic</option>
-      <option value="Oceans">Oceans</option>
-      <option value="Gray">Gray</option>
-      <option value="DarkGray">Dark Gray</option>
-      <option value="Imagery">Imagery</option>
-      <option value="ShadedRelief">Shaded Relief</option>
+  <select name="basemaps" id="basemaps" onChange="changeBasemap(basemaps)">
+    <option value="Topographic">Topographic</option>
+    <option value="Streets">Streets</option>
+    <option value="NationalGeographic">National Geographic</option>
+    <option value="Oceans">Oceans</option>
+    <option value="Gray">Gray</option>
+    <option value="DarkGray">Dark Gray</option>
+    <option value="Imagery">Imagery</option>
+    <option value="ShadedRelief">Shaded Relief</option>
     </select>
     </div>
+
     <script>
-        var map = L.map('map', {
-          center: [47.274, -122.465],
-          zoom: 12
-        })
-        
-        var layer = L.esri.basemapLayer('Topographic').addTo(map);
-  var layerLabels;
+      var map = L.map('map').setView([47.274, -122.465], 12);
+      var layer = L.esri.basemapLayer('Topographic').addTo(map);
+      var layerLabels;
 
-  function setBasemap(basemap) {
-    if (layer) {
-      map.removeLayer(layer);
-    }
+      function setBasemap(basemap) {
+        if (layer) {
+          map.removeLayer(layer);
+        }
 
-    layer = L.esri.basemapLayer(basemap);
+        layer = L.esri.basemapLayer(basemap);
 
-    map.addLayer(layer);
+        map.addLayer(layer);
 
-    if (layerLabels) {
-      map.removeLayer(layerLabels);
-    }
+        if (layerLabels) {
+          map.removeLayer(layerLabels);
+        }
 
-    if (basemap === 'ShadedRelief'
-     || basemap === 'Oceans'
-     || basemap === 'Gray'
-     || basemap === 'DarkGray'
-     || basemap === 'Imagery'
-     || basemap === 'Terrain'
-   ) {
-      layerLabels = L.esri.basemapLayer(basemap + 'Labels');
-      map.addLayer(layerLabels);
-    }
-  }
+        if (basemap === 'ShadedRelief'
+         || basemap === 'Oceans'
+         || basemap === 'Gray'
+         || basemap === 'DarkGray'
+         || basemap === 'Imagery'
+         || basemap === 'Terrain'
+       ) {
+          layerLabels = L.esri.basemapLayer(basemap + 'Labels');
+          map.addLayer(layerLabels);
+        }
+      }
 
-  function changeBasemap(basemaps){
-    var basemap = basemaps.value;
-    setBasemap(basemap);
-  }
+      function changeBasemap(basemaps){
+        var basemap = basemaps.value;
+        setBasemap(basemap);
+      }
 
-var layer = L.esri.basemapLayer('Topographic').addTo(map);
+    var layer = L.esri.basemapLayer('Topographic').addTo(map);
 
-        var NPDES = L.esri.featureLayer({url: 'https://map11.epa.gov/arcgis/rest/services/EMEF/efpoints/MapServer/2'}).addTo(map);  
+    var NPDES = L.esri.featureLayer({url: 'https://map11.epa.gov/arcgis/rest/services/EMEF/efpoints/MapServer/2'}).addTo(map);        
 
-        NPDES.bindPopup(function (layer) {
+    NPDES.bindPopup(function (layer) {
        return L.Util.template('<p>Name of Permit Holder: {PRIMARY_NAME} <br/> Address: {LOCATION_ADDRESS}, {CITY_NAME}, {STATE_CODE} {POSTAL_CODE} <br/> Facility URL: {FACILITY_URL}</p>', layer.feature.properties);
        });
+ 
     </script>    
 </body>
 </html>
