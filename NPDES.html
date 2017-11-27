@@ -52,6 +52,11 @@
     </div>
 
     <script>
+      
+      var options = { timeout: 5000 }
+      var box = L.control.messagebox(options).addTo(map);
+      box.show( 'Part of the Clean Water Act created the National Pollutant Discharge Elimination System (NPDES) permit program which monitors water pollution through regulation of point sources. This map shows the location of discharge facilites that are permitted to release <1,000,000 gallons of water a day. ' );
+      
       var map = L.map('map').setView([47.274, -122.465], 12);
       var layer = L.esri.basemapLayer('Topographic').addTo(map);
       var layerLabels;
