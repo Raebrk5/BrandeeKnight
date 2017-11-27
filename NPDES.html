@@ -55,26 +55,37 @@
           zoom: 12
         });
 
-          var layer = L.esri.basemapLayer(‘Topographic’).addTo(map); var layerLabels;
-          function setBasemap(basemap) { if (layer) { map.removeLayer(layer); }
-          layer = L.esri.basemapLayer(basemap);
+          function setBasemap(basemap) {
+    if (layer) {
+      map.removeLayer(layer);
+    }
 
-          map.addLayer(layer);
+    layer = L.esri.basemapLayer(basemap);
 
-          if (layerLabels) {
-            map.removeLayer(layerLabels);
-          }
+    map.addLayer(layer);
 
-          if (basemap === 'ShadedRelief'
-           || basemap === 'Oceans'
-           || basemap === 'Gray'
-           || basemap === 'DarkGray'
-           || basemap === 'Imagery'
-           || basemap === 'Terrain'    ) {
-            layerLabels = L.esri.basemapLayer(basemap + 'Labels');
-            map.addLayer(layerLabels);
-          }   }
-          function changeBasemap(basemaps){ var basemap = basemaps.value; setBasemap(basemap); }
+    if (layerLabels) {
+      map.removeLayer(layerLabels);
+    }
+
+    if (basemap === 'ShadedRelief'
+     || basemap === 'Oceans'
+     || basemap === 'Gray'
+     || basemap === 'DarkGray'
+     || basemap === 'Imagery'
+     || basemap === 'Terrain'
+   ) {
+      layerLabels = L.esri.basemapLayer(basemap + 'Labels');
+      map.addLayer(layerLabels);
+    }
+  }
+
+  function changeBasemap(basemaps){
+    var basemap = basemaps.value;
+    setBasemap(basemap);
+  }
+
+var layer = L.esri.basemapLayer('Topographic').addTo(map);
 
         var NPDES = L.esri.featureLayer({url: 'https://map11.epa.gov/arcgis/rest/services/EMEF/efpoints/MapServer/2'}).addTo(map);  
 
