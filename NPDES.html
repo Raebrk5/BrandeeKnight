@@ -2,7 +2,7 @@
 <html lang="en">
 <head>  
   <meta charset="utf-8">
-  <title>Leaflet Map with a Feature Layer</title>  
+  <title>Toxic Waste Water Permits</title>  
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
   <!-- Load Leaflet from CDN-->
@@ -53,9 +53,12 @@
         var map = L.map('map', {
           center: [47.274, -122.465],
           zoom: 12
-        });
+        })
+        
+        var layer = L.esri.basemapLayer('Topographic').addTo(map);
+  var layerLabels;
 
-          function setBasemap(basemap) {
+  function setBasemap(basemap) {
     if (layer) {
       map.removeLayer(layer);
     }
