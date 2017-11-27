@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>  
+  <meta charset="utf-8">
+  <title>Leaflet Map with a Feature Layer</title>  
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+  <!-- Load Leaflet from CDN-->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+
+  <!-- Load Esri Leaflet from Content Delivery Network (CDN) -->
+  <script src="https://unpkg.com/esri-leaflet@2.0.4/dist/esri-leaflet.js"></script>
+
+  <style>
+    html,
+    body,
+    #map {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      }
+      #basemaps-wrapper {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 400;
+      background: white;
+      padding: 10px;
+      }
+      #basemaps {
+        margin-bottom: 5px;
+      }
+  </style>
+  <script src="https://unpkg.com/esri-leaflet-renderers@2.0.6"></script>
+</head>
+<body>    
+    <div id="map"></div>
+
+    <script>
+        var map = L.map('map', {
+          center: [47.274, -122.465],
+          zoom: 12
+        });
+
+        var esriStreets = L.esri.basemapLayer('Imagery').addTo(map);  
+
+        var NPDES = L.esri.featureLayer({url: 'https://map11.epa.gov/arcgis/rest/services/EMEF/efpoints/MapServer/2'}).addTo(map);  
+
+        NPDES.bindPopup(function (layer) {
+       return L.Util.template('<p>Name of Permit Holder: {PRIMARY_NAME} <br/> Address: {LOCATION_ADDRESS}, {CITY_NAME}, {STATE_CODE} {POSTAL_CODE} <br/> Facility URL: {FACILITY_URL}</p>', layer.feature.properties);
+       });
+    </script>    
+</body>
+</html>
