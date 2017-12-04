@@ -1,56 +1,44 @@
-<!DOCTYPE html>
 <html>
-  <head>
-    <title>EarthQuake Map</title>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
+<head>
+    <meta charset='utf-8' />
+    <title>Add live realtime data</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.css' rel='stylesheet' />
     <style>
-      html, body, #map-canvas {
-        height: 100%;
-        margin: 0px;
-        padding: 0px
-      }
- #info-box {
-      background-color: red;
-      border: 1px solid red;
-      bottom: 30px;
-      height: 20px;
-      padding: 10px;
-      position: absolute;
-      right: 30px;
-    }
-   
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
     </style>
-   
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBo7jogoFUh0PFOBDUlMWAnZIHmRQfcB4"></script>
-    <script>
-var map;
-function initialize() {
-  map = new google.maps.Map(document.getElementById('map-canvas'), {
-    zoom: 4,
-    center: {lat: 47.2414, lng: -122.4594}, 
-    mapTypeId: google.maps.MapTypeId.TERRAIN
-  });
+</head>
+<body>
 
+<div id='map'></div>
 
- // Load GeoJSON from USGS.
-  map.data.loadGeoJson('http://api.open-notify.org/iss-now.json');
+<script>
+mapboxgl.accessToken = 'undefined';
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v9',
+    zoom: 0
+});
 
-// Set mouseover event for each feature.
-  map.data.addListener('mouseover', function(event) {
-    document.getElementById('info-box').textContent =
-        event.feature.getProperty("Time")+" time of account"+" location: "+ event.feature.getProperty("CURRENT_LATITUDE")+ event.feature.getProperty("CURRENT_LONGITUDE")
+var url = 'http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojson';
+map.on('load', function () {
+    window.setInterval(function() {
+        map.getSource('drone').setData(url);
+    }, 2000);
 
-  });
-}
+    map.addSource('drone', { type: 'geojson', data: url });
+    map.addLayer({
+        "id": "drone",
+        "type": "symbol",
+        "source": "drone",
+        "layout": {
+            "icon-image": "rocket-15"
+        }
+    });
+});
+</script>
 
-google.maps.event.addDomListener(window, 'load', initialize);
-
-    </script>
-  </head>
-  <body>
-    <div id="map-canvas"></div>
-     <div id="info-box">?</div>
-    
-  </body>
+</body>
 </html>
