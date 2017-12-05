@@ -27,7 +27,7 @@
    
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBo7jogoFUh0PFOBDUlMWAnZIHmRQfcB4"></script>
     <script>
-
+//creates blank map with base map
 var map;
 function initialize() {
   map = new google.maps.Map(document.getElementById('map-canvas'), {
@@ -37,30 +37,30 @@ function initialize() {
   });
 
 
- // Load GeoJSON.
+ // Loads the GeoJson from the URL between the ('')
   map.data.loadGeoJson('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_month.geojson');
 
-  // Set mouseover event for each feature.
+  // Set mouseover event and the text content which calls from the attributes of the json.
   map.data.addListener('mouseover', function(event) {
     document.getElementById('info-box').textContent =
         "Earthquakes +4.5" + " | " +"Magnitude " + event.feature.getProperty("mag") + " | " + "Felt by " + event.feature.getProperty("felt")
   });
-
+//adds the variable magnitude based on the attribute of Mag
 map.data.setStyle(function(feature) {
     var magnitude = feature.getProperty('mag');
     return {
       icon: getCircle(magnitude)
     };
   });
- //What is happening here? Change this to a different scale and color
+ //this creates the response to the variable magnitude set above; and the charateristics that will be changed on the value 
 function getCircle(magnitude) {
   var circle = {
     path: google.maps.SymbolPath.CIRCLE,
-    fillColor: 'red',
-    fillOpacity: .2,
-    scale: Math.pow(2, magnitude) / 2,
+    fillColor: 'Orange',
+    fillOpacity: .3,
+    scale: Math.pow(2, magnitude) / 3,
     strokeColor: 'red',
-    strokeWeight: .5
+    strokeWeight: .7
   };
   return circle;
 }
