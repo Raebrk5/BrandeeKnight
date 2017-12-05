@@ -6,7 +6,8 @@
     <meta charset="utf-8">
     <style>
       html, body, #map-canvas {
-        height: 100%;
+       width: 500PX;
+       height: 500px;
         margin: 0px;
         padding: 3px
       }
@@ -31,8 +32,9 @@
 var map;
 function initialize() {
   map = new google.maps.Map(document.getElementById('map-canvas'), {
-    zoom: 5,
-    center: {lat: 47.2414, lng: -122.4594}, 
+    zoom: 1,
+    minZoom: 1,
+    center: {lat: 0, lng: 0}, 
     mapTypeId: google.maps.MapTypeId.SATELLITE,
     panControl: true,
     zoomControl: true,
