@@ -43,7 +43,7 @@ function initialize() {
   // Set mouseover event for each feature.
   map.data.addListener('mouseover', function(event) {
     document.getElementById('info-box').textContent =
-        "Earthquakes +4.5 " + "|" +"Magnitude" + event.feature.getProperty("mag") + "|" + "Felt by " + event.feature.getProperty("felt")
+        "Earthquakes +4.5" + " | " +"Magnitude " + event.feature.getProperty("mag") + " | " + "Felt by " + event.feature.getProperty("felt")
   });
 
 map.data.setStyle(function(feature) {
