@@ -51,7 +51,7 @@ function initialize() {
   // Set mouseover event and the text content which calls from the attributes of the json.
   map.data.addListener('mouseover', function(event) {
     document.getElementById('info-box').textContent =
-        "Earthquakes +4.5" + " | " +"Magnitude " + event.feature.getProperty("mag") + " | " + "Felt by " + event.feature.getProperty("felt")
+        "Earthquakes +4.5" + " | " +"Magnitude " + event.feature.getProperty("mag")+ " | " + "Location: "+ event.feature.getProperty("place") + " | " + "Felt by " + event.feature.getProperty("felt")
   });
 //adds the variable magnitude based on the attribute of Mag
 map.data.setStyle(function(feature) {
