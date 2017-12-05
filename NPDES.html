@@ -1,43 +1,99 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>NOAA Quantitative Precipitation Forecasts</title>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
-    <style>
-      html, body, #map-canvas {
-        height: 100%;
-        margin: 0px;
-        padding: 0px
-      }
-
-   
-    </style>
-   
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBo7jogoFUh0PFOBDUlMWAnZIHmRQfcB4"></script>
-    <script>
-var map;
-function initialize() {
-  map = new google.maps.Map(document.getElementById('map-canvas'), {
-    zoom: 7,
-    center: {lat: 39.828, lng: 98.579},
-    mapTypeId: google.maps.MapTypeId.HYBRID
-  });
-
-  var georssLayer = new google.maps.KmlLayer({
-    url: 'http://www.wpc.ncep.noaa.gov/kml/qpf/QPF48hr_Day1-2_latest.kml'
-  });
-  georssLayer.setMap(map);
-
-}
-
-
-google.maps.event.addDomListener(window, 'load', initialize);
-
-    </script>
-  </head>
-  <body>
-    <div id="map-canvas"></div>
-    
-  </body>
-</html>
+ <!doctype html>
+ <html lang="en">
+ <head>  
+   <meta charset="utf-8">
+   <title>Minor Discharge: National Pollution Discharge & Elimination System Permits</title>  
+   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+ 
+   <!-- Load Leaflet from CDN-->
+   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+   <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+ 
+   <!-- Load Esri Leaflet from Content Delivery Network (CDN) -->
+   <script src="https://unpkg.com/esri-leaflet@2.0.4/dist/esri-leaflet.js"></script>
+ 
+   <style>
+     html,
+     body,
+     #map {
+       height: 100%;
+       width: 100%;
+       margin: 0;
+       padding: 0;
+       }
+       #basemaps-wrapper {
+       position: absolute;
+       top: 10px;
+       right: 10px;
+       z-index: 400;
+       background: white;
+       padding: 10px;
+       }
+       #basemaps {
+         margin-bottom: 5px;
+       }
+   </style>
+   <script src="https://unpkg.com/esri-leaflet-renderers@2.0.6"></script>
+ </head>
+ 
+ <body>    
+     <div id="map"></div>
+     <div id="basemaps-wrapper" class="leaflet-bar">
+   <select name="basemaps" id="basemaps" onChange="changeBasemap(basemaps)">
+     <option value="Topographic">Topographic</option>
+     <option value="Streets">Streets</option>
+     <option value="NationalGeographic">National Geographic</option>
+     <option value="Oceans">Oceans</option>
+     <option value="Gray">Gray</option>
+     <option value="DarkGray">Dark Gray</option>
+     <option value="Imagery">Imagery</option>
+     <option value="ShadedRelief">Shaded Relief</option>
+     </select>
+      </div>
+  
+      <script>
+        var map = L.map('map').setView([47.274, -122.465], 12);
+        var layer = L.esri.basemapLayer('Topographic').addTo(map);
+        var layerLabels;
+ 
+       function setBasemap(basemap) {
+         if (layer) {
+           map.removeLayer(layer);
+         }
+ 
+         layer = L.esri.basemapLayer(basemap);
+ 
+         map.addLayer(layer);
+ 
+         if (layerLabels) {
+           map.removeLayer(layerLabels);
+         }
+ 
+         if (basemap === 'ShadedRelief'
+          || basemap === 'Oceans'
+          || basemap === 'Gray'
+          || basemap === 'DarkGray'
+          || basemap === 'Imagery'
+          || basemap === 'Terrain'
+        ) {
+           layerLabels = L.esri.basemapLayer(basemap + 'Labels');
+           map.addLayer(layerLabels);
+         }
+       }
+ 
+       function changeBasemap(basemaps){
+         var basemap = basemaps.value;
+         setBasemap(basemap);
+       }
+ 
+     var layer = L.esri.basemapLayer('Topographic').addTo(map);
+ 
+     var NPDES = L.esri.featureLayer({url: 'https://map11.epa.gov/arcgis/rest/services/EMEF/efpoints/MapServer/2'}).addTo(map);        
+ 
+     NPDES.bindPopup(function (layer) {
+        return L.Util.template('<p>Name of Permit Holder: {PRIMARY_NAME} <br/> Address: {LOCATION_ADDRESS}, {CITY_NAME}, {STATE_CODE} {POSTAL_CODE} <br/> Facility URL: {FACILITY_URL}</p>', layer.feature.properties);
+        });
+  
+     </script>    
+ </body>
+ </html>
