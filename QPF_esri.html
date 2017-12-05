@@ -58,7 +58,7 @@
 
     parser.parse();
 
-    var kmlUrl = "http://www.wpc.ncep.noaa.gov/kml/qpf/QPF48hr_Day1-2_latest.kml";
+    var kmlUrl = "http://www.wpc.ncep.noaa.gov/kml/noaa_chart/WPC_Day1_SigWx.kml";
     var kml = new KMLLayer(kmlUrl);
     map.addLayer(kml);
     kml.on("load", function() {
@@ -77,7 +77,7 @@
        data-dojo-props="region:'center'">
     <div id="meta">
       <span id="loading"><img src="images/loading_black.gif" /></span>
-      <h3>NOAA Quantitative Percipitation Forecast </br> Click on the pin for forcasted levels </br> <a href= http://www.wpc.ncep.noaa.gov/kml/about_qpf_kml.shtml> More about NOAA QPFs</a></h3>
+      <h3>NOAA significant weather for 24 hours </br> Click on the pin for forcasted levels </br> <a href=http://www.wpc.ncep.noaa.gov/national_forecast/natfcst.php> More about NOAA's Data</a></h3>
       <br />
       
     </div>
