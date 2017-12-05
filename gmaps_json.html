@@ -45,6 +45,8 @@ function initialize() {
     disableDoubleClickZoom: true
   });
 
+       
+     
 
  // Loads the GeoJson from the URL between the ('')
   map.data.loadGeoJson('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_month.geojson');
@@ -76,13 +78,14 @@ function getCircle(magnitude) {
 function eqfeed_callback(results) {
   map.data.addGeoJson(results);
 }
-
-}
-      
-      var georssLayer = new google.maps.KmlLayer({
+  
+  var georssLayer = new google.maps.KmlLayer({
     url: 'https://earthquake.usgs.gov/learn/plate-boundaries.kmz'
   });
   georssLayer.setMap(map);
+
+}
+
 
 
 google.maps.event.addDomListener(window, 'load', initialize);
