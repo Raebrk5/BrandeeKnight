@@ -67,44 +67,6 @@ function getCircle(magnitude) {
 function eqfeed_callback(results) {
   map.data.addGeoJson(results);
 }
-google.maps.event.addDomListener(window, 'load', initialize);
-    </script>
-  </head>
-  <body>
-    <div id="map-canvas"></div>
-     <div id="info-box">?</div>
-    
-  </body>
-</html>
-
-  });
-
-  //What is happening here?
-  
-map.data.setStyle(function(feature) {
-    var magnitude = feature.getProperty('mag');
-    return {
-      icon: getCircle(magnitude)
-    };
-  });
-}
- //What is happening here? Change this to a different scale and color
-
-function getCircle(magnitude) {
-  var circle = {
-    path: google.maps.SymbolPath.CIRCLE,
-    fillColor: 'red',
-    fillOpacity: .2,
-    scale: Math.pow(2, magnitude) / 2,
-    strokeColor: 'white',
-    strokeWeight: .5
-  };
-  return circle;
-}
-
-function eqfeed_callback(results) {
-  map.data.addGeoJson(results);
-}
 
 }
 
