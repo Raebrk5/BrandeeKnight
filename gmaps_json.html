@@ -78,6 +78,12 @@ function eqfeed_callback(results) {
 }
 
 }
+      
+      var georssLayer = new google.maps.KmlLayer({
+    url: 'https://earthquake.usgs.gov/learn/plate-boundaries.kmz'
+  });
+  georssLayer.setMap(map);
+
 
 google.maps.event.addDomListener(window, 'load', initialize);
 
