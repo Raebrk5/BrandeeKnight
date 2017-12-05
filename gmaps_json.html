@@ -53,7 +53,7 @@ map.data.setStyle(function(feature) {
       icon: getCircle(magnitude)
     };
   });
-}
+
  //What is happening here? Change this to a different scale and color
 
 function getCircle(magnitude) {
@@ -71,7 +71,7 @@ function getCircle(magnitude) {
 function eqfeed_callback(results) {
   map.data.addGeoJson(results);
 }
-
+      }
 
 google.maps.event.addDomListener(window, 'load', initialize);
 
