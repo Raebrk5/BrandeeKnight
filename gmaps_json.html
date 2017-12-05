@@ -39,7 +39,7 @@ function initialize() {
  // Load GeoJSON from USGS.
   map.data.loadGeoJson('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_month.geojson');
 //change the marker
-  map.data.setStyle(function(feature) {
+  map.data.setStyle( {
   icon: 'assets/earthquake2.png'
 });
 
