@@ -45,7 +45,7 @@ function initialize() {
     document.getElementById('info-box').textContent =
         "Earthquakes +4.5" +"Magnitude" + event.feature.getProperty("mag")
   });
-}
+
 map.data.setStyle(function(feature) {
     var magnitude = feature.getProperty('mag');
     return {
@@ -106,7 +106,7 @@ function eqfeed_callback(results) {
   map.data.addGeoJson(results);
 }
 
-
+}
 
 google.maps.event.addDomListener(window, 'load', initialize);
 
