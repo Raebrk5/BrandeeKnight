@@ -15,7 +15,6 @@
       background-color: #C0C0C0;
       border: 1px;
       border-color: #696969;
-      border-weight 3px;
       bottom: 30px;
       height: 20px;
       padding: 10px;
@@ -36,12 +35,10 @@ function initialize() {
     mapTypeId: google.maps.MapTypeId. SATELLITE
   });
 
+
  // Load GeoJSON from USGS.
   map.data.loadGeoJson('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_month.geojson');
-//change the marker
-  map.data.setStyle( {
-  icon: 'assets/earthquake2.png'
-});
+
 
 // Set mouseover event for each feature.
   map.data.addListener('mouseover', function(event) {
@@ -50,8 +47,33 @@ function initialize() {
   });
 }
 
+map.data.setStyle(function(feature) {
+    var magnitude = feature.getProperty('mag');
+    return {
+      icon: getCircle(magnitude)
+    };
+  });
+}
+ //What is happening here? Change this to a different scale and color
+
+function getCircle(magnitude) {
+  var circle = {
+    path: google.maps.SymbolPath.CIRCLE,
+    fillColor: 'red',
+    fillOpacity: .2,
+    scale: Math.pow(2, magnitude) / 2,
+    strokeColor: 'red',
+    strokeWeight: .5
+  };
+  return circle;
+}
+
+function eqfeed_callback(results) {
+  map.data.addGeoJson(results);
+}
+
+
 google.maps.event.addDomListener(window, 'load', initialize);
-  
 
     </script>
   </head>
