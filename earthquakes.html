@@ -53,7 +53,7 @@
       background-color: #C0C0C0;
       border: 1px;
       border-color: #696969;
-      bottom: 10px;
+      
       height: 20px;
       padding: 15px;
       position: relative; 
@@ -65,11 +65,7 @@
     </style>
    
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBo7jogoFUh0PFOBDUlMWAnZIHmRQfcB4"></script>
-    <script>
-  var georssLayer = new google.maps.KmlLayer({
-    url: 'http://hisz.rsoe.hu/alertmap/Tectonic_Plate_Boundaries.kml'
-  });
-  georssLayer.setMap(map);     
+    <script>     
  
 //creates blank map with base map
 var map;
@@ -88,7 +84,10 @@ function initialize() {
     disableDoubleClickZoom: true
   });
 
-       
+  var georssLayer = new google.maps.KmlLayer({
+    url: 'http://hisz.rsoe.hu/alertmap/Tectonic_Plate_Boundaries.kml'
+  });
+  georssLayer.setMap(map);     
      
 
  // Loads the GeoJson from the URL between the ('')
