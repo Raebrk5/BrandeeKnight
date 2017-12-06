@@ -66,6 +66,11 @@
    
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBo7jogoFUh0PFOBDUlMWAnZIHmRQfcB4"></script>
     <script>
+  var georssLayer = new google.maps.KmlLayer({
+    url: 'http://hisz.rsoe.hu/alertmap/Tectonic_Plate_Boundaries.kml'
+  });
+  georssLayer.setMap(map);     
+ 
 //creates blank map with base map
 var map;
 function initialize() {
@@ -117,10 +122,7 @@ function eqfeed_callback(results) {
   map.data.addGeoJson(results);
 }
   
-  var georssLayer = new google.maps.KmlLayer({
-    url: 'http://hisz.rsoe.hu/alertmap/Tectonic_Plate_Boundaries.kml'
-  });
-  georssLayer.setMap(map);
+ 
 
 }
 
